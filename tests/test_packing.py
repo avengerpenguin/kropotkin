@@ -14,8 +14,9 @@ from hypothesis.strategies import (
 
 from kropotkin import pack, unpack
 
+# floats aren't used as msgpack actually inflates short ones
 json_fixture = recursive(
-    none() | booleans() | floats(width=32, allow_nan=False) | text(printable),
+    none() | booleans() | text(printable),
     lambda children: lists(children, min_size=1, max_size=4)
     | dictionaries(text(printable), children, min_size=1, max_size=4),
 )
@@ -30,13 +31,7 @@ def test_unpack_inverts_pack(j):
 def test_pack_smaller_than_json_serialise(j):
     packed = pack(j)
     as_json = json.dumps(j)
-    # Forgive where pack actually bloats in small cases
-    # There is a known issue where if 0.0 64-bit float is used, Python msgpack
-    # bloats that to b'\xcb\x00\x00\x00\x00\x00\x00\x00\x00' full IEEE double
-    # precision even though converting to int 0 would be equivalent for JSON
-    # Clearly, we or msgback can afford to throw away some precision, but for
-    # now just tolerate bloat for these edge cases
-    assert len(packed) <= len(as_json) or len(packed) - len(as_json) <= 12
+    assert len(packed) <= 16 or len(packed) <= len(as_json)
 
 
 @given(json_fixture)
