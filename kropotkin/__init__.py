@@ -15,6 +15,7 @@ def pack(raw_data):
         bytes_to_use = packed_bytes
 
     number = int(bytes_to_use.hex(), 16)
+    print("LEN", len(packed_bytes), len(compress_bytes), bytes_to_use, number)
     return hhc.hhc(number)
 
 

@@ -31,7 +31,14 @@ def test_unpack_inverts_pack(j):
 def test_pack_smaller_than_json_serialise(j):
     packed = pack(j)
     as_json = json.dumps(j)
-    assert len(packed) <= 16 or len(packed) <= len(as_json)
+    # 1. Don't worry if packing is bigger for small input
+    # 2. Do worry if JSON dumps would have been smaller
+    # 3. ...unless the overhead of packing is marginal
+    assert (
+        len(packed) <= 16
+        or len(packed) <= len(as_json)
+        or len(packed) - len(as_json) <= 4
+    )
 
 
 @given(json_fixture)
