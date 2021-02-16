@@ -5,7 +5,6 @@ from hypothesis import assume, given
 from hypothesis.strategies import (
     booleans,
     dictionaries,
-    floats,
     lists,
     none,
     recursive,
@@ -37,7 +36,7 @@ def test_pack_smaller_than_json_serialise(j):
     assert (
         len(packed) <= 16
         or len(packed) <= len(as_json)
-        or len(packed) - len(as_json) <= 4
+        or len(packed) - len(as_json) <= 6
     )
 
 

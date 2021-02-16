@@ -14,4 +14,11 @@ setup(
     packages=["kropotkin"],
     description="Hooks for stateless Django apps",
     install_requires=["msgpack", "hhc"],
+    setup_requires=[
+        "setuptools_scm>=3.3.1",
+        "pre-commit",
+    ],
+    extras_require={
+        "test": ["pytest", "hypothesis"],
+    },
 )
