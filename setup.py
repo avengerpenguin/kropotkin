@@ -19,6 +19,6 @@ setup(
         "pre-commit",
     ],
     extras_require={
-        "test": ["pytest", "hypothesis"],
+        "test": ["pytest", "hypothesis", "pytest-pikachu", "pytest-mypy"],
     },
 )
