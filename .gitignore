@@ -1,3 +1,4 @@
 .hypothesis
 .tox
 *.egg-info
+_version.py
